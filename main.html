@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Navigation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* استخدام المتغيرات للألوان */
+        :root {
+            --primary-color-light: #007bff;
+            --primary-color-dark: #0056b3;
+            --background-color-light: #f0f4f8;
+            --background-color-dark: #121212;
+            --container-background-light: white;
+            --container-background-dark: #1e1e1e;
+            --text-color-light: #333;
+            --text-color-dark: white;
+            --button-hover-light: #0056b3;
+            --button-hover-dark: #003f8a;
+            --button-background-light: #007bff;
+            --button-background-dark: #1d62d3;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color-light);
+            color: var(--text-color-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            flex-direction: column;
+        }
+
+        body.dark-mode {
+            background-color: var(--background-color-dark);
+            color: var(--text-color-dark);
+        }
+
+        .container {
+            text-align: center;
+            background: var(--container-background-light);
+            padding: 40px 50px;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        body.dark-mode .container {
+            background-color: var(--container-background-dark);
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        #clock {
+            margin: 20px 0;
+            font-size: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        button {
+            margin: 10px;
+            padding: 12px 25px;
+            font-size: 16px;
+            color: white;
+            background-color: var(--button-background-light);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        body.dark-mode button {
+            background-color: var(--button-background-dark);
+        }
+
+        button:hover {
+            background-color: var(--button-hover-light);
+            transform: scale(1.1);
+        }
+
+        body.dark-mode button:hover {
+            background-color: var(--button-hover-dark);
+        }
+
+        button i {
+            margin-right: 8px;
+        }
+
+        .dark-mode-toggle, .back-to-main {
+            position: absolute;
+            top: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            color: white;
+        }
+
+        .dark-mode-toggle {
+            right: 20px;
+        }
+
+        .back-to-main {
+            left: 20px;
+        }
+    </style>
+    <script>
+        // Toggle Dark Mode
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+        }
+
+        // Clock
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById("clock").innerText = now.toLocaleTimeString();
+        }, 1000);
+
+        // Navigation functions
+        function calculatorfun() {
+            location = "java_calculator.html";
+        }
+
+        function changecurrencyfun() {
+            location = "java_changeCurrency.html";
+        }
+
+        function rectanglefun() {
+            location = "java_rectangle.html";
+        }
+
+        // Go back to the main page
+        function goBack() {
+            location = "main.html";
+        }
+
+        // Track visitors
+        function trackVisitors() {
+            let visitorsCount = localStorage.getItem('visitorsCount');
+            if (!visitorsCount) {
+                visitorsCount = 0;
+            }
+            visitorsCount++;
+            localStorage.setItem('visitorsCount', visitorsCount);
+            document.getElementById('visitorCount').innerText = "Visitors: " + visitorsCount;
+        }
+
+        // Run the visitor tracking function on page load
+        window.onload = function() {
+            trackVisitors();
+        }
+    </script>
+</head>
+<body>
+    <!-- Button to go back to the main page -->
+    <button class="back-to-main" onclick="goBack()">Back to Main Page</button>
+
+    <!-- Button to toggle Dark Mode -->
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+    <div class="container">
+        <h1>Welcome to Main Page</h1>
+        <div id="clock"></div>
+        <div id="visitorCount">Visitors: 0</div>
+        <div class="button-container">
+            <button onclick="calculatorfun()"><i class="fa fa-calculator"></i>Calculator</button>
+            <button onclick="changecurrencyfun()"><i class="fa fa-exchange-alt"></i>Change Currency</button>
+            <button onclick="rectanglefun()"><i class="fa fa-square"></i>Rectangle</button>
+        </div>
+    </div>
+</body>
+</html>

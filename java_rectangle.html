@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rectangle Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        body.dark-mode {
+            background-color: #121212;
+            color: white;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            transition: background-color 0.3s ease;
+        }
+        body.dark-mode .container {
+            background-color: #1e1e1e;
+        }
+        .container h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        input {
+            display: block;
+            margin: 10px auto;
+            padding: 10px;
+            width: 90%;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            font-weight: bold;
+            color: #333;
+        }
+        body.dark-mode #result {
+            background-color: #2c2c2c;
+            border-color: #444;
+            color: white;
+        }
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .dark-mode-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .back-to-main {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+    </style>
+    <script>
+        // Toggle Dark Mode
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+        }
+
+        // Calculate Area
+        function area() {
+            const length = document.getElementById("length").value;
+            const width = document.getElementById("width").value;
+
+            if (!validateInput(length, width)) return;
+
+            const result = Number(length) * Number(width);
+            document.getElementById("result").value = result;
+            clearError();
+        }
+
+        // Calculate Perimeter
+        function perimeter() {
+            const length = document.getElementById("length").value;
+            const width = document.getElementById("width").value;
+
+            if (!validateInput(length, width)) return;
+
+            const result = 2 * (Number(length) + Number(width));
+            document.getElementById("result").value = result;
+            clearError();
+        }
+
+        // Validate Input
+        function validateInput(length, width) {
+            if (length === "" || width === "") {
+                displayError("Please enter both length and width.");
+                return false;
+            }
+            if (isNaN(length) || isNaN(width)) {
+                displayError("Length and width must be numbers.");
+                return false;
+            }
+            if (Number(length) <= 0 || Number(width) <= 0) {
+                displayError("Length and width must be positive numbers.");
+                return false;
+            }
+            return true;
+        }
+
+        // Display Error
+        function displayError(message) {
+            document.getElementById("error-message").innerText = message;
+        }
+
+        // Clear Error
+        function clearError() {
+            document.getElementById("error-message").innerText = "";
+        }
+
+        // Go back to the main page
+        function goBack() {
+            location = "main.html"; // Go back to the main page (main.html)
+        }
+    </script>
+</head>
+<body>
+    <!-- Button to go back to the main page (left side) -->
+    <button class="back-to-main" onclick="goBack()">Back to Main Page</button>
+
+    <!-- Button to toggle Dark Mode (right side) -->
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+    <div class="container">
+        <h1>Rectangle Calculator</h1>
+        <input id="length" placeholder="Enter Length">
+        <input id="width" placeholder="Enter Width">
+        <input id="result" placeholder="Result" readonly>
+        <button onclick="area()">Calculate Area</button>
+        <button onclick="perimeter()">Calculate Perimeter</button>
+        <div id="error-message" class="error-message"></div>
+    </div>
+</body>
+</html>

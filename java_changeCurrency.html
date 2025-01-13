@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            flex-direction: column; /* To stack the content vertically */
+        }
+        body.dark-mode {
+            background-color: #121212;
+            color: white;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            transition: background-color 0.3s ease;
+        }
+        body.dark-mode .container {
+            background-color: #1e1e1e;
+        }
+        .container h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        input, select {
+            display: block;
+            margin: 10px auto;
+            padding: 10px;
+            width: 90%;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            font-weight: bold;
+            color: #333;
+        }
+        body.dark-mode #result {
+            background-color: #2c2c2c;
+            border-color: #444;
+            color: white;
+        }
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .dark-mode-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .back-to-main {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+    </style>
+    <script>
+        // Toggle Dark Mode
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+        }
+
+        // Currency Conversion
+        function change() {
+            const moneyAmount = document.getElementById("money").value;
+            const currencyFrom = document.getElementById("currencyFrom").value;
+            const currencyTo = document.getElementById("currencyTo").value;
+
+            if (!validateInput(moneyAmount)) return;
+
+            const exchangeRates = {
+                "usd": 1, // USD to USD is 1
+                "try": 28.5, // Example: 1 USD = 28.5 TRY
+                "syr": 2500, // Example: 1 USD = 2500 SYP
+                "lbn": 15000, // Example: 1 USD = 15000 LBP
+                "sek": 10, // Example: 1 USD = 10 SEK
+            };
+
+            const amountInUSD = moneyAmount / exchangeRates[currencyFrom]; // Convert to USD first
+            const convertedAmount = amountInUSD * exchangeRates[currencyTo]; // Convert to target currency
+
+            document.getElementById("result").value = convertedAmount.toFixed(2); // Display result with 2 decimal points
+            clearError();
+        }
+
+        // Validate Input
+        function validateInput(moneyAmount) {
+            if (moneyAmount === "") {
+                displayError("Please enter the amount to convert.");
+                return false;
+            }
+            if (isNaN(moneyAmount)) {
+                displayError("Amount must be a valid number.");
+                return false;
+            }
+            if (Number(moneyAmount) <= 0) {
+                displayError("Amount must be a positive number.");
+                return false;
+            }
+            return true;
+        }
+
+        // Display Error
+        function displayError(message) {
+            document.getElementById("error-message").innerText = message;
+        }
+
+        // Clear Error
+        function clearError() {
+            document.getElementById("error-message").innerText = "";
+        }
+
+        // Go back to the main page
+        function goBack() {
+            location = "main.html"; // Go back to the main page (main.html)
+        }
+    </script>
+</head>
+<body>
+    <!-- Button to go back to the main page (top left corner) -->
+    <button class="back-to-main" onclick="goBack()">Back to Main Page</button>
+
+    <!-- Button to toggle Dark Mode (top right corner) -->
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+    <div class="container">
+        <h1>Currency Converter</h1>
+        
+        <!-- Input field for the amount -->
+        <input id="money" placeholder="Enter Amount" />
+
+        <!-- Select dropdown for the currency to convert from -->
+        <select id="currencyFrom">
+            <option value="usd">USD</option>
+            <option value="try">TRY (Turkish Lira)</option>
+            <option value="syr">SYP (Syrian Pound)</option>
+            <option value="lbn">LBP (Lebanese Pound)</option>
+            <option value="sek">SEK (Swedish Krona)</option>
+        </select>
+
+        <!-- Select dropdown for the currency to convert to -->
+        <select id="currencyTo">
+            <option value="usd">USD</option>
+            <option value="try">TRY </option>
+            <option value="syr">SYP </option>
+            <option value="lbn">LBP </option>
+            <option value="sek">SEK </option>
+        </select>
+
+        <!-- Input field to show the converted result -->
+        <input id="result" placeholder="Converted Amount" readonly />
+        
+        <!-- Convert button -->
+        <button onclick="change()">Convert</button>
+
+        <!-- Error message -->
+        <div id="error-message" class="error-message"></div>
+    </div>
+</body>
+</html>
